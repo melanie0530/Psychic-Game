@@ -14,7 +14,7 @@ function updateDom() {
     document.getElementById('guessesSoFar').innerHTML = guessChoices;
 }
 
-updateDom();
+
 
 document.onkeyup = function (event) {
     var userGuess = event.key;
@@ -25,31 +25,41 @@ document.onkeyup = function (event) {
 
     var options = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",];
 
+    var justReset;
+    var miss;
+
     if (options.indexOf(userGuess) > -1) {
         if (userGuess === computerGuess) {
             wins++;
-            guessLeft--;
-            guessChoices = [];
+            guessLeft=0;
+            justReset=1;
+
+            // guessChoices = [];
             computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-            updateDom();
+            updateDom();            
         }
             else {
+                miss=1;
                 guessLeft--;
                 guessChoices.push(userGuess);
                 computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
                 updateDom();
             }
         }
-
-        if (guessLeft === 0) {
+        if(guessLeft === 0 && justReset===1){
             guessLeft = 9;
+            guessChoices = [];
+            computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+            updateDom();
+        }
+        else if(guessLeft === 0 && miss ===1) {
             losses++;
+            guessLeft = 9;
             guessChoices = [];
             computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
             updateDom();
         }
 
+    
         
     }
-
-
